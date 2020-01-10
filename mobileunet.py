@@ -12,8 +12,6 @@ from keras import backend as keras
 def mobileunet(pretrained_weights = None,input_size = (256,256,1)):
     inputs = Input(input_size)
     initializer = {'depthwise_initializer':'he_normal','pointwise_initializer':'he_normal'}
-    #conv1  = Conv2D(64,3,activation='relu',padding='same', kernel_initializer='he_normal')(inputs)
-    #conv1  = Conv2D(64,3,activation='relu',padding='same', kernel_initializer='he_normal')(conv1)
     conv1  = SeparableConv2D(64, 3, activation='relu', padding='same', **initializer)(inputs)
     conv1  = SeparableConv2D(64, 3, activation='relu', padding='same', **initializer)(conv1)
     conv1  = BatchNormalization()(conv1)
@@ -35,17 +33,15 @@ def mobileunet(pretrained_weights = None,input_size = (256,256,1)):
     conv4  = BatchNormalization()(conv4)
     conv4  = SeparableConv2D(512, 3, activation='relu', padding='same', **initializer)(conv4)
     conv4  = BatchNormalization()(conv4)
-    drop4  = Dropout(0.2)(conv4)
-    pool4  = MaxPooling2D(pool_size=(2, 2))(drop4)    
+    pool4  = MaxPooling2D(pool_size=(2, 2))(conv4)    
     
     conv5  = SeparableConv2D(1024, 3, activation='relu', padding='same', **initializer)(pool4)
     conv5  = BatchNormalization()(conv5)
     conv5  = SeparableConv2D(1024, 3, activation='relu', padding='same', **initializer)(conv5)
     conv5  = BatchNormalization()(conv5)
-    drop5  = Dropout(0.2)(conv5)
     
-    up6    = Conv2DTranspose(512, 3, strides=(2, 2), activation='relu', padding='same', kernel_initializer='he_normal')(drop5)
-    merge6 = concatenate([drop4, up6], axis = 3)
+    up6    = Conv2DTranspose(512, 3, strides=(2, 2), activation='relu', padding='same', kernel_initializer='he_normal')(conv5)
+    merge6 = concatenate([conv4, up6], axis = 3)
     conv6  = SeparableConv2D(512, 3, activation='relu', padding='same', **initializer)(merge6)
     conv6  = BatchNormalization()(conv6)
     conv6  = SeparableConv2D(512, 3, activation='relu', padding='same', **initializer)(conv6)
