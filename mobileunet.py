@@ -12,10 +12,11 @@ from keras import backend as keras
 def mobileunet(pretrained_weights = None,input_size = (256,256,1)):
     inputs = Input(input_size)
     initializer = {'depthwise_initializer':'he_normal','pointwise_initializer':'he_normal'}
-    conv1  = Conv2D(64,3,activation='relu',padding='same', kernel_initializer='he_normal')(inputs)
-    conv1  = Conv2D(64,3,activation='relu',padding='same', kernel_initializer='he_normal')(conv1)
-    #conv1  = SeparableConv2D(64, 3, activation='relu', padding='same', **initializer)(inputs)
-    #conv1  = SeparableConv2D(64, 3, activation='relu', padding='same', **initializer)(conv1)
+    #conv1  = Conv2D(64,3,activation='relu',padding='same', kernel_initializer='he_normal')(inputs)
+    #conv1  = Conv2D(64,3,activation='relu',padding='same', kernel_initializer='he_normal')(conv1)
+    conv1  = SeparableConv2D(64, 3, activation='relu', padding='same', **initializer)(inputs)
+    conv1  = SeparableConv2D(64, 3, activation='relu', padding='same', **initializer)(conv1)
+    conv1  = BatchNormalization()(conv1)
     pool1  = MaxPooling2D(pool_size=(2, 2))(conv1)
     
     conv2  = SeparableConv2D(128, 3, activation='relu', padding='same', **initializer)(pool1)
@@ -72,12 +73,10 @@ def mobileunet(pretrained_weights = None,input_size = (256,256,1)):
     conv9  = BatchNormalization()(conv9)
     conv9  = Conv2D(2, 3, activation = 'relu', padding = 'same', kernel_initializer='he_normal')(conv9)
     conv10 = Conv2D(1, 1, activation = 'sigmoid')(conv9)
-    #conv10  = Conv2D(num_classes, 1, activation='relu', padding='same')(conv9)      
     
     model = Model(input = inputs, output = conv10)
     model.compile(optimizer = Adam(lr = 1e-3), loss = 'binary_crossentropy', metrics = ['accuracy'])
     
-    #model.summary()
     if(pretrained_weights):
     	model.load_weights(pretrained_weights)
 
