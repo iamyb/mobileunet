@@ -1,8 +1,8 @@
-from keras.models import *
-from keras.layers import *
-from keras.optimizers import *
+from keras.layers import Input, SeparableConv2D, BatchNormalization, MaxPooling2D, Conv2DTranspose
+from keras.layers import concatenate, Conv2D
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler
-from keras import backend as keras
+from keras.models import Model
+from keras.optimizers import Adam
 
 def mobileunet(pretrained_weights = None,input_size = (256,256,1)):
     inputs = Input(input_size)
