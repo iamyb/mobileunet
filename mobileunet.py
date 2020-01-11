@@ -8,6 +8,7 @@ def mobileunet(pretrained_weights = None,input_size = (256,256,1)):
     inputs = Input(input_size)
 
     conv1  = SeparableConv2D(64, 3, activation='relu', padding='same')(inputs)
+    conv1  = BatchNormalization()(conv1)
     conv1  = SeparableConv2D(64, 3, activation='relu', padding='same')(conv1)
     conv1  = BatchNormalization()(conv1)
     pool1  = MaxPooling2D(pool_size=(2, 2))(conv1)
