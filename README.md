@@ -7,7 +7,7 @@ MobileUnet is an architecture that uses depth-wise separable convolutions to bui
 
 ### Dependencies
 
-This tutorial depends on the following libraries:
+It depends on the following libraries:
 
 * Tensorflow
 * Keras >= 2.2
