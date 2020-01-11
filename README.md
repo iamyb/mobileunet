@@ -12,11 +12,13 @@ This tutorial depends on the following libraries:
 * Tensorflow
 * Keras >= 2.2
 
-and it has depnedency on UNET data generator if you want to run the demo.
-### Clone the repo
+and it has depnedency on UNET data generator if you want to run the demo. 
+### Clone the repo with submodules
 
+git clone --recurse-submodules https://github.com/iamyb/mobileunet.git
 
+### Open Issues
 
-
+There is a discussion about the performance  https://github.com/tensorflow/tensorflow/issues/12132
 
 
