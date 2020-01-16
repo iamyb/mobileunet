@@ -19,7 +19,7 @@ git clone --recurse-submodules https://github.com/iamyb/mobileunet.git
 
 
 ## Performance  
-The inference latency comparison between MobileUnet and Unet, which are tested only on Intel Xeon CPU E5-2680.   
+The inference latency comparison between MobileUnet and [Unet](https://github.com/zhixuhao/unet), which are tested only on Intel Xeon CPU E5-2680.   
 
 | Model |Total Parameters| 1 CPU Cores | 2 CPU Cores | 4 CPU Cores | 8 CPU Cores | 16 CPU Cores |  
 |---|---|---|---|---|---|---|  
